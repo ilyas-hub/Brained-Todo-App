@@ -10,13 +10,13 @@ function App() {
   const [editTaskTitle, setEditTaskTitle] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/v1/tasks").then((res) => setTasks(res.data));
+    axios.get("https://brained-todo-app.onrender.com/api/v1/tasks").then((res) => setTasks(res.data));
   }, []);
 
   const addTask = () => {
     if (!newTask.trim()) return;
     axios
-      .post("http://localhost:5000/api/v1/tasks", { title: newTask })
+      .post("https://brained-todo-app.onrender.com/api/v1/tasks", { title: newTask })
       .then((res) => {
         setTasks([...tasks, res.data]);
         setNewTask("");
@@ -25,7 +25,7 @@ function App() {
 
   const toggleTask = (id, completed) => {
     axios
-      .put(`http://localhost:5000/api/v1/tasks/${id}`, { completed: !completed })
+      .put(`https://brained-todo-app.onrender.com/api/v1/tasks/${id}`, { completed: !completed })
       .then((res) => {
         setTasks(tasks.map((task) => (task._id === id ? res.data : task)));
       });
@@ -39,7 +39,7 @@ function App() {
   const updateTask = () => {
     if (!editTaskTitle.trim()) return;
     axios
-      .put(`http://localhost:5000/api/v1/tasks/${editTaskId}`, {
+      .put(`https://brained-todo-app.onrender.com/api/v1/tasks/${editTaskId}`, {
         title: editTaskTitle,
       })
       .then((res) => {
@@ -52,7 +52,7 @@ function App() {
   };
 
   const deleteTask = (id) => {
-    axios.delete(`http://localhost:5000/api/v1/tasks/${id}`).then(() => {
+    axios.delete(`https://brained-todo-app.onrender.com/api/v1/tasks/${id}`).then(() => {
       setTasks(tasks.filter((task) => task._id !== id));
     });
   };

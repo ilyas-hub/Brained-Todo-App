@@ -9,14 +9,9 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors());
 
-
-
 // MongoDB Connection
 mongoose
-  .connect(process.env.MONGODB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.MONGODB_URL)
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
@@ -26,10 +21,6 @@ const taskSchema = new mongoose.Schema({
 });
 
 const Task = mongoose.model("Task", taskSchema);
-
-
-
-
 
 app.get("/api/v1/tasks", async (req, res) => {
   try {
@@ -78,6 +69,12 @@ app.delete("/api/v1/tasks/:id", async (req, res) => {
   }
 });
 
+
+app.use(express.static(path.join(_dirname, "/frontend/dist")));
+
+app.get('*', (_, res) => {
+  res.sendFile(path.resolve(_dirname, "frontend", "dist", "index.html"));
+});
 
 
 app.listen(PORT, () =>
